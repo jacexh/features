@@ -437,7 +437,7 @@ if [[ "${INSTALL_PYTHON_TOOLS}" = "true" ]] && [[ $(python --version) != "" ]]; 
     fi
     for util in "${DEFAULT_UTILS[@]}"; do
         if ! type ${util} > /dev/null 2>&1; then
-            "${PIPX_DIR}pipx" install --system-site-packages --pip-args '--no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/' ${util}
+            "${PIPX_DIR}pipx" install --system-site-packages --pip-args '--no-cache-dir --force-reinstall -i https://mirrors.aliyun.com/pypi/simple/' ${util}
         else
             echo "${util} already installed. Skipping."
         fi
