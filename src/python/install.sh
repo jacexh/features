@@ -224,7 +224,7 @@ install_from_source() {
     fi
 
     # Find version using soft match
-    find_version_from_git_tags VERSION "https://github.com/python/cpython"
+    find_version_from_git_tags VERSION "https://gh.xuh.me/python/cpython"
 
     INSTALL_PATH="${PYTHON_INSTALL_PATH}/${VERSION}"
     
