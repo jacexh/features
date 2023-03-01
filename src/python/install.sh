@@ -431,13 +431,13 @@ if [[ "${INSTALL_PYTHON_TOOLS}" = "true" ]] && [[ $(python --version) != "" ]]; 
     export PIP_CACHE_DIR=/tmp/pip-tmp/cache
     PIPX_DIR=""
     if ! type pipx > /dev/null 2>&1; then
-        pip3 install --disable-pip-version-check --no-cache-dir --user pipx 2>&1
-        /tmp/pip-tmp/bin/pipx install --pip-args=--no-cache-dir pipx
+        pip3 install --disable-pip-version-check --no-cache-dir --user -i https://mirrors.aliyun.com/pypi/simple/ pipx 2>&1
+        /tmp/pip-tmp/bin/pipx install --pip-args '--no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/' pipx
         PIPX_DIR="/tmp/pip-tmp/bin/"
     fi
     for util in "${DEFAULT_UTILS[@]}"; do
         if ! type ${util} > /dev/null 2>&1; then
-            "${PIPX_DIR}pipx" install --system-site-packages --pip-args '--no-cache-dir --force-reinstall -i https://mirrors.aliyun.com/pypi/simple/' ${util}
+            "${PIPX_DIR}pipx" install --system-site-packages --pip-args '--no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/' ${util}
         else
             echo "${util} already installed. Skipping."
         fi
