@@ -237,7 +237,7 @@ install_from_source() {
     mkdir -p /tmp/python-src ${INSTALL_PATH}
     cd /tmp/python-src
     local tgz_filename="Python-${VERSION}.tgz"
-    local tgz_url="https://www.python.org/ftp/python/${VERSION}/${tgz_filename}"
+    local tgz_url="https://cdn.npmmirror.com/binaries/python/${VERSION}/${tgz_filename}"
     echo "Downloading ${tgz_filename}..."
     curl -sSL -o "/tmp/python-src/${tgz_filename}" "${tgz_url}"
 
@@ -422,7 +422,7 @@ if [[ "${INSTALL_PYTHON_TOOLS}" = "true" ]] && [[ $(python --version) != "" ]]; 
     # Update pip if not using os provided python
     if [[ $(python --version) != "" ]] || [[ ${PYTHON_VERSION} != "os-provided" ]] && [[ ${PYTHON_VERSION} != "system" ]] && [[ ${PYTHON_VERSION} != "none" ]]; then
         echo "Updating pip..."
-        python -m pip install --no-cache-dir --upgrade pip
+        python -m pip install --no-cache-dir --upgrade -i https://mirrors.aliyun.com/pypi/simple/ pip
     fi
 
     # Install tools
@@ -431,13 +431,13 @@ if [[ "${INSTALL_PYTHON_TOOLS}" = "true" ]] && [[ $(python --version) != "" ]]; 
     export PIP_CACHE_DIR=/tmp/pip-tmp/cache
     PIPX_DIR=""
     if ! type pipx > /dev/null 2>&1; then
-        pip3 install --disable-pip-version-check --no-cache-dir --user pipx 2>&1
-        /tmp/pip-tmp/bin/pipx install --pip-args=--no-cache-dir pipx
+        pip3 install --disable-pip-version-check --no-cache-dir --user -i https://mirrors.aliyun.com/pypi/simple/ pipx 2>&1
+        /tmp/pip-tmp/bin/pipx install --pip-args '--no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/' pipx
         PIPX_DIR="/tmp/pip-tmp/bin/"
     fi
     for util in "${DEFAULT_UTILS[@]}"; do
         if ! type ${util} > /dev/null 2>&1; then
-            "${PIPX_DIR}pipx" install --system-site-packages --pip-args '--no-cache-dir --force-reinstall' ${util}
+            "${PIPX_DIR}pipx" install --system-site-packages --pip-args '--no-cache-dir --force-reinstall -i https://mirrors.aliyun.com/pypi/simple/' ${util}
         else
             echo "${util} already installed. Skipping."
         fi
